@@ -107,7 +107,7 @@ const Dashboard = () => {
   const allOption = "All";
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/certifications')
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/data`)
       .then(res => res.json())
       .then(json => setData(json));
   }, []);
