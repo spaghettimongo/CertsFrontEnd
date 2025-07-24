@@ -106,11 +106,15 @@ const Dashboard = () => {
   
   const allOption = "All";
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/data`)
-      .then(res => res.json())
-      .then(json => setData(json));
-  }, []);
+ useEffect(() => {
+  fetch(`${import.meta.env.VITE_API_BASE_URL}/data`)
+    .then(res => res.json())
+    .then(json => {
+      console.log('✅ Dati ricevuti:', json); // <--- AGGIUNGI QUESTO
+      setData(json);
+    });
+}, []);
+
 
   const uniqueCountries = Array.from(new Set(data.map(d => d.country))).sort();
   const uniqueYears = Array.from(new Set(data.map(d => new Date(d.dataCertificazione).getFullYear()))).sort();
