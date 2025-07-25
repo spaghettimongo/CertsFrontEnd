@@ -7,16 +7,16 @@ import {
 
 interface Certification {
   _id: string;
-  nome: string;
-  cognome: string;
-  azienda: string;
-  email: string;
-  jobRole: string;
-  dataCertificazione: string;
-  tipoCertificazione: string;
-  country: string;
-  customer: string;
-  deliveryModel: string;
+  FirstName: string;
+  LastName: string;
+  Company: string;
+  Email: string;
+  JobRole: string;
+  CertificationDate: string;
+  CertificationType: string;
+  Country: string;
+  Customer: string;
+  DeliveryModel: string;
 }
 
 const months = [
@@ -693,24 +693,24 @@ const Dashboard = () => {
               <tbody className="divide-y divide-gray-700">
                 {filteredData.map((record, index) => (
                   <tr key={record._id} className={`hover:bg-gray-700/50 transition-colors ${index % 2 === 0 ? 'bg-gray-800/30' : 'bg-gray-900/30'}`}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-medium">{record.nome}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-medium">{record.cognome}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.azienda}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-medium">{record.FirstName}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-medium">{record.LastName}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.Company}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.jobRole}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                        {record.tipoCertificazione}
+                        {record.CertificationType}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.country}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.customer}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.Country}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.Customer}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        record.deliveryModel === 'Onshore' 
+                        record.DeliveryModel === 'Onshore' 
                           ? 'bg-blue-100 text-blue-800' 
                           : 'bg-amber-100 text-amber-800'
                       }`}>
-                        {record.deliveryModel}
+                        {record.DeliveryModel}
                       </span>
                     </td>
                   </tr>
