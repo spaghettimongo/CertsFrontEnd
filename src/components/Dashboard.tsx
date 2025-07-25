@@ -198,8 +198,8 @@ const Dashboard = () => {
     .map(([country, count]) => ({ country, count }));
 
   const totalCerts = filteredData.length;
-  const onshoreCerts = filteredData.filter(d => d.deliveryModel === 'Onshore').length;
-  const offshoreCerts = filteredData.filter(d => d.deliveryModel === 'Offshore').length;
+  const onshoreCerts = filteredData.filter(d => d.DeliveryModel === 'Onshore').length;
+  const offshoreCerts = filteredData.filter(d => d.DeliveryModel === 'Offshore').length;
 
   const startEdit = (titleKey: string, currentValue: string) => {
     setEditingTitle(titleKey);
