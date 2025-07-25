@@ -116,8 +116,8 @@ const Dashboard = () => {
 }, []);
 
 
-  const uniqueCountries = Array.from(new Set(data.map(d => d.country))).sort();
-  const uniqueYears = Array.from(new Set(data.map(d => new Date(d.dataCertificazione).getFullYear()))).sort();
+  const uniqueCountries = Array.from(new Set(data.map(d => d.Country))).sort();
+  const uniqueYears = Array.from(new Set(data.map(d => new Date(d.CertificationDate).getFullYear()))).sort();
 
   const handleCountryChange = (country: string) => {
     if (country === allOption) {
@@ -141,7 +141,7 @@ const Dashboard = () => {
   };
 
   const filteredData = data.filter(record => {
-    const recordDate = new Date(record.dataCertificazione);
+    const recordDate = new Date(record.CertificationDate);
     const matchesCountry = selectedCountries.includes(allOption) || selectedCountries.length === 0 || selectedCountries.includes(record.country);
     const matchesYear = selectedYears.length === 0 || selectedYears.includes(recordDate.getFullYear());
     const matchesMonth = selectedMonths.length === 0 || selectedMonths.includes(recordDate.getMonth());
@@ -149,18 +149,18 @@ const Dashboard = () => {
   });
 
   const certificationsByType = filteredData.reduce((acc, curr) => {
-    acc[curr.tipoCertificazione] = (acc[curr.tipoCertificazione] || 0) + 1;
+    acc[curr.CertificationType] = (acc[curr.CertificationType] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   const chartData = Object.entries(certificationsByType).map(([type, count]) => ({
-    tipoCertificazione: type,
+    CertificationType: type,
     count
   }));
 
   // Pie chart data for delivery models
   const deliveryModelData = filteredData.reduce((acc, curr) => {
-    acc[curr.deliveryModel] = (acc[curr.deliveryModel] || 0) + 1;
+    acc[curr.DeliveryModel] = (acc[curr.DeliveryModel] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
@@ -172,23 +172,23 @@ const Dashboard = () => {
   // Trend data by month
   const trendData = months.map((month, index) => {
     const count = filteredData.filter(record => 
-      new Date(record.dataCertificazione).getMonth() === index
+      new Date(record.CertificationDate).getMonth() === index
     ).length;
     return {
       month: month.slice(0, 3),
       certifications: count,
       onshore: filteredData.filter(record => 
-        new Date(record.dataCertificazione).getMonth() === index && record.deliveryModel === 'Onshore'
+        new Date(record.CertificationDate).getMonth() === index && record.DeliveryModel === 'Onshore'
       ).length,
       offshore: filteredData.filter(record => 
-        new Date(record.dataCertificazione).getMonth() === index && record.deliveryModel === 'Offshore'
+        new Date(record.CertificationDate).getMonth() === index && record.DeliveryModel === 'Offshore'
       ).length
     };
   });
 
   // Country data for map and top countries
   const countryData = filteredData.reduce((acc, curr) => {
-    acc[curr.country] = (acc[curr.country] || 0) + 1;
+    acc[curr.Country] = (acc[curr.Country] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
