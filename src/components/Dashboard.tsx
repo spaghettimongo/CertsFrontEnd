@@ -50,7 +50,7 @@ const GlobalIcon = () => (
 );
 
 // Country coordinates for the world map visualization
-const countryCoordinates: Record<string, { x: number; y: number; name: string }> = {
+const CountryCoordinates: Record<string, { x: number; y: number; name: string }> = {
   'USA': { x: 150, y: 120, name: 'United States' },
   'Canada': { x: 120, y: 80, name: 'Canada' },
   'UK': { x: 320, y: 100, name: 'United Kingdom' },
@@ -80,7 +80,7 @@ const Dashboard = () => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedYears, setSelectedYears] = useState<number[]>([]);
   const [selectedMonths, setSelectedMonths] = useState<number[]>([]);
-  const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
+  const [CountryDropdownOpen, setCountryDropdownOpen] = useState(false);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   
   // Editable titles state
@@ -96,7 +96,7 @@ const Dashboard = () => {
     mapTitle: "Global Certification Distribution",
     topCountriesTitle: "Top 10 Countries by Certifications",
     tableTitle: "Certification Records",
-    countryFilterTitle: "Filter by Country",
+    CountryFilterTitle: "Filter by Country",
     yearFilterTitle: "Filter by Year",
     monthFilterTitle: "Filter by Month"
   });
@@ -119,17 +119,17 @@ const Dashboard = () => {
   const uniqueCountries = Array.from(new Set(data.map(d => d.Country))).sort();
   const uniqueYears = Array.from(new Set(data.map(d => new Date(d.CertificationDate).getFullYear()))).sort();
 
-  const handleCountryChange = (country: string) => {
-    if (country === allOption) {
+  const handleCountryChange = (Country: string) => {
+    if (Country === allOption) {
       if (selectedCountries.includes(allOption)) {
         setSelectedCountries([]);
       } else {
         setSelectedCountries([allOption, ...uniqueCountries]);
       }
     } else {
-      const newSelected = selectedCountries.includes(country)
-        ? selectedCountries.filter(c => c !== country && c !== allOption)
-        : [...selectedCountries.filter(c => c !== allOption), country];
+      const newSelected = selectedCountries.includes(Country)
+        ? selectedCountries.filter(c => c !== Country && c !== allOption)
+        : [...selectedCountries.filter(c => c !== allOption), Country];
       setSelectedCountries(newSelected);
     }
   };
@@ -142,7 +142,7 @@ const Dashboard = () => {
 
   const filteredData = data.filter(record => {
     const recordDate = new Date(record.CertificationDate);
-    const matchesCountry = selectedCountries.includes(allOption) || selectedCountries.length === 0 || selectedCountries.includes(record.country);
+    const matchesCountry = selectedCountries.includes(allOption) || selectedCountries.length === 0 || selectedCountries.includes(record.Country);
     const matchesYear = selectedYears.length === 0 || selectedYears.includes(recordDate.getFullYear());
     const matchesMonth = selectedMonths.length === 0 || selectedMonths.includes(recordDate.getMonth());
     return matchesCountry && matchesYear && matchesMonth;
@@ -187,15 +187,15 @@ const Dashboard = () => {
   });
 
   // Country data for map and top countries
-  const countryData = filteredData.reduce((acc, curr) => {
+  const CountryData = filteredData.reduce((acc, curr) => {
     acc[curr.Country] = (acc[curr.Country] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  const topCountriesData = Object.entries(countryData)
+  const topCountriesData = Object.entries(CountryData)
     .sort(([,a], [,b]) => b - a)
     .slice(0, 10)
-    .map(([country, count]) => ({ country, count }));
+    .map(([Country, count]) => ({ Country, count }));
 
   const totalCerts = filteredData.length;
   const onshoreCerts = filteredData.filter(d => d.DeliveryModel === 'Onshore').length;
@@ -350,13 +350,13 @@ const Dashboard = () => {
             {/* Country Filter */}
             <div className="relative z-50">
               <EditableTitle
-                titleKey="countryFilterTitle"
-                value={titles.countryFilterTitle}
+                titleKey="CountryFilterTitle"
+                value={titles.CountryFilterTitle}
                 defaultClassName="block text-sm font-semibold text-gray-300 mb-3"
               />
               <div className="relative">
                 <button
-                  onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}
+                  onClick={() => setCountryDropdownOpen(!CountryDropdownOpen)}
                   className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-gray-700 to-gray-800 border border-gray-600 hover:border-green-400 transition-colors py-3 pl-4 pr-10 text-left shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 text-white flex items-center justify-between"
                 >
                   <span className="block truncate">
@@ -364,18 +364,18 @@ const Dashboard = () => {
                   </span>
                   <ChevronDownIcon />
                 </button>
-                {countryDropdownOpen && (
+                {CountryDropdownOpen && (
                   <div className="absolute z-[9999] mt-2 max-h-60 w-full overflow-auto rounded-xl bg-gray-800 border border-gray-600 text-white py-2 shadow-2xl">
-                    {[allOption, ...uniqueCountries].map((country) => (
+                    {[allOption, ...uniqueCountries].map((Country) => (
                       <div
-                        key={country}
-                        onClick={() => handleCountryChange(country)}
+                        key={Country}
+                        onClick={() => handleCountryChange(Country)}
                         className="relative cursor-pointer select-none py-3 pl-10 pr-4 hover:bg-gray-700 transition-colors"
                       >
-                        <span className={`block truncate ${selectedCountries.includes(country) ? 'font-semibold text-green-400' : 'font-normal'}`}>
-                          {country}
+                        <span className={`block truncate ${selectedCountries.includes(Country) ? 'font-semibold text-green-400' : 'font-normal'}`}>
+                          {Country}
                         </span>
-                        {selectedCountries.includes(country) && (
+                        {selectedCountries.includes(Country) && (
                           <span className="absolute left-3 top-3 text-green-400">
                             <CheckIcon />
                           </span>
@@ -586,15 +586,15 @@ const Dashboard = () => {
                   <path d="M50 100 Q80 90 120 110 Q160 120 200 150 Q240 180 280 170 Q320 160 360 180 Q400 200 440 190 Q480 180 520 200 Q560 220 580 240 L580 280 L50 280 Z" fill="#374151" opacity="0.4" />
                   
                   {/* Country dots */}
-                  {Object.entries(countryData).map(([country, count]) => {
-                    const coords = countryCoordinates[country];
+                  {Object.entries(CountryData).map(([Country, count]) => {
+                    const coords = CountryCoordinates[Country];
                     if (!coords) return null;
                     
                     const radius = Math.max(4, Math.min(20, count * 3));
-                    const isHovered = hoveredCountry === country;
+                    const isHovered = hoveredCountry === Country;
                     
                     return (
-                      <g key={country}>
+                      <g key={Country}>
                         <circle
                           cx={coords.x}
                           cy={coords.y}
@@ -604,7 +604,7 @@ const Dashboard = () => {
                           stroke="#ffffff"
                           strokeWidth="2"
                           className="cursor-pointer transition-all duration-200 hover:scale-110"
-                          onMouseEnter={() => setHoveredCountry(country)}
+                          onMouseEnter={() => setHoveredCountry(Country)}
                           onMouseLeave={() => setHoveredCountry(null)}
                         />
                         {isHovered && (
@@ -626,7 +626,7 @@ const Dashboard = () => {
                 </svg>
               </div>
               <div className="mt-4 text-sm text-gray-400 text-center">
-                Hover over the dots to see certification counts by country
+                Hover over the dots to see certification counts by Country
               </div>
             </div>
           </div>
@@ -640,7 +640,7 @@ const Dashboard = () => {
             />
             <div className="space-y-4">
               {topCountriesData.map((item, index) => (
-                <div key={item.country} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors">
+                <div key={item.Country} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
                       index === 0 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' :
@@ -650,7 +650,7 @@ const Dashboard = () => {
                     }`}>
                       {index + 1}
                     </div>
-                    <span className="text-white font-medium">{item.country}</span>
+                    <span className="text-white font-medium">{item.Country}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-16 bg-gray-700 rounded-full h-2">
