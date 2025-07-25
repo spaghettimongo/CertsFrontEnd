@@ -696,7 +696,7 @@ const Dashboard = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-medium">{record.FirstName}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-medium">{record.LastName}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.Company}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.jobRole}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.JobRole}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
                         {record.CertificationType}
